@@ -118,10 +118,12 @@ class helperMethodsPlugin extends MantisPlugin {
      *  attr => key:input name
      *          val: value
      */
-    static function drawGenericYesNoComboRow($attr) {
+    static function drawGenericYesNoComboRow($attr, $opt=null) {
       $t_items = array( 0 => 'No', 1 => 'Si');
-      $t_opt = array('suffix' => '');
-      
+
+      $t_opt = array('suffix' => '', 'input_prefix' => '');
+      $t_opt = array_merge($t_opt,(array)$opt);
+
       // ugly
       foreach( $attr as $key => $val ) {
         $t_in = $key;
