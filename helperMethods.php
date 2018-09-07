@@ -9,7 +9,7 @@ class helperMethodsPlugin extends MantisPlugin {
 		$this->description = 'Collection of Useful Miscelaneous Methods';
     $this->page = '';
 
-		$this->version = '1.0.1';
+		$this->version = '1.0.2';
 		$this->requires		= array(
 			'MantisCore' => '2.0.0',
 		);
@@ -144,7 +144,9 @@ class helperMethodsPlugin extends MantisPlugin {
 
           $opt = array('lbl' => null, 'suffix' => '_code', 
                        'input_prefix' => null, 'input_suffix' => null,
-                       'input_name' => null);       
+                       'input_name' => null, 'access_key' => null,
+                       'colspan' => null);
+
           $opt = array_merge($opt,(array)$options);
 
           $lbl = $opt['lbl'];
@@ -153,7 +155,16 @@ class helperMethodsPlugin extends MantisPlugin {
           $input_suffix = $opt['input_suffix'];
           $input_name = $opt['input_name'];
 
-          $access_key = "{$item_idcard}{$suffix}";
+          $colspan = ' ';
+          if( null != $opt['colspan'] ) {
+              $colspan = ' colspan="' . $opt['colspan'] . '"'; 
+          }
+
+          $access_key = $opt['access_key'];
+          if( null == $access_key ) {
+              $access_key = "{$item_idcard}{$suffix}";
+          }
+          
           if( null == $input_name ) {
               $input_name = $input_prefix . $item_idcard . $input_suffix;
           }  
@@ -161,7 +172,7 @@ class helperMethodsPlugin extends MantisPlugin {
           $l10n = is_null($lbl) ? plugin_lang_get( $item_idcard ) : $lbl;
 
           echo '<tr ', helper_alternate_class(), '><td class="category">', $l10n,'</td>';
-          echo '<td>';
+          echo "<td {$colspan} >";
           echo '<select name="' . $input_name . '">';
           if( !is_null($item_set) && count($item_set) > 0 ) {
                 foreach($item_set as $code => $description) {
